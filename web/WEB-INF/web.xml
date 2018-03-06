@@ -12,6 +12,22 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>PurchaseRequisition.NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ItemRegistrationController</servlet-name>
+        <servlet-class>Inventory.ItemRegistrationController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StockOverviewController</servlet-name>
+        <servlet-class>Inventory.StockOverviewController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StockRequirementController</servlet-name>
+        <servlet-class>Inventory.StockRequirementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RejectedItemsController</servlet-name>
+        <servlet-class>Inventory.RejectedItemsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PR_Type</servlet-name>
         <url-pattern>/PR_Type</url-pattern>
@@ -23,6 +39,22 @@
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemRegistrationController</servlet-name>
+        <url-pattern>/ItemRegistrationController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StockOverviewController</servlet-name>
+        <url-pattern>/StockOverviewController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StockRequirementController</servlet-name>
+        <url-pattern>/StockRequirementController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RejectedItemsController</servlet-name>
+        <url-pattern>/RejectedItemsController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
