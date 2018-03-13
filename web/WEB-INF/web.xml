@@ -28,6 +28,10 @@
         <servlet-name>RejectedItemsController</servlet-name>
         <servlet-class>Inventory.RejectedItemsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PurchaseRequisitionController</servlet-name>
+        <servlet-class>PurchaseRequisition.PurchaseRequisitionController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PR_Type</servlet-name>
         <url-pattern>/PR_Type</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>RejectedItemsController</servlet-name>
         <url-pattern>/RejectedItemsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PurchaseRequisitionController</servlet-name>
+        <url-pattern>/PurchaseRequisitionController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

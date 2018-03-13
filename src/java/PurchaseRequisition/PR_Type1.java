@@ -79,7 +79,6 @@ public class PR_Type1 extends HttpServlet {
             case 1: registerVendor(request,response); break;
             case 2: vendorMaterials(request,response); break;
             case 3: completeRegistration(request,response); break;
-            //case 3: submitC(request,response); break;
         }
     }
     protected void registerVendor(HttpServletRequest request, HttpServletResponse response)
@@ -181,21 +180,26 @@ public class PR_Type1 extends HttpServlet {
         session.setAttribute("create2submit", "submitRegVendor(1)");
         session.setAttribute("create3tab", "disabled");
         session.setAttribute("create3content", "");
-        response.sendRedirect("PR_Type_1.jsp");
+        response.sendRedirect("Purchasing_PurchaseRequisition_1.jsp");
     }
     protected void vendorMaterials(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         //EXTRACT DATA FROM THE FORM
         HttpSession session=request.getSession(); 
         int itemno = Integer.parseInt(request.getParameter("itemno"));
         session.setAttribute("item", itemno);
         String x = request.getParameter("item1");
+        String y = request.getParameter("iditem");
         session.setAttribute("item1", x);
-        String[] itemArray = new String[itemno]; 
+        session.setAttribute("iditem", y);
+        String[][] itemArray = new String[itemno][2]; 
         for (int i=0; i<itemno; i++){
             int j=i+1;
-            itemArray[i] = request.getParameter("item"+j);
-            session.setAttribute("item"+j, itemArray[i]);
+            itemArray[i][0] = request.getParameter("item"+j);
+            itemArray[i][1] = request.getParameter("iditem"+j);
+            session.setAttribute("item"+j, itemArray[i][0]);
+            session.setAttribute("iditem"+j, itemArray[i][1]);
         }
         session.setAttribute("itemarray", itemArray);
         //ACTIVE OR INACTIVE TAB
@@ -206,7 +210,7 @@ public class PR_Type1 extends HttpServlet {
         session.setAttribute("create2submit", "submitRegVendor(1)");
         session.setAttribute("create3tab", "active");
         session.setAttribute("create3content", "show active");
-        response.sendRedirect("PR_Type_1.jsp");
+        response.sendRedirect("Purchasing_PurchaseRequisition_1.jsp");
     }
     protected void completeRegistration(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -229,18 +233,122 @@ public class PR_Type1 extends HttpServlet {
         m.setLink(session.getAttribute("c_link").toString());
         m.setPlatform(session.getAttribute("c_platform").toString());
         
+        //INSERT A NEW ROW INTO VENDOR
         m.insertNewVendor();
         int itemno = Integer.parseInt(session.getAttribute("item").toString());
         String[] itemArray = new String[itemno]; 
         for (int i=0; i<itemno;i++){
             int j=i+1;
-            itemArray[i]=session.getAttribute("item"+j).toString();
+            itemArray[i]=session.getAttribute("iditem"+j).toString();
         }
         m.setItem(itemArray);
+        //INSERT A NEW ROW INTO VENDORMATERIAL
+        for (int i=0; i<itemno;i++){
+            m.setMat_id(itemArray[i]);
+            m.insertVendorMaterial();
+        }
+        clearSessionUpdate(request,response);
+        //STOPPED HERE
         
+        int rowmaterial = m.countRowMaterial();
+        String[][] array = m.listMaterial();
+        session.setAttribute("rowmaterial",rowmaterial);
+        for(int i=0; i<rowmaterial; i++){
+            session.setAttribute("1material"+i, array[i][0]);
+            session.setAttribute("2material"+i, array[i][1]);
+            session.setAttribute("3material"+i, array[i][2]);
+            session.setAttribute("4material"+i, array[i][3]);
+        }
         
-        //VENDOR MATERIALS
-        response.sendRedirect("newjsp.jsp");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<script>");
+            out.println("alert('New Vendor Registered!'); location.href='newjsp.jsp'");
+            out.println("</script>");
+        }
+    }
+    protected void clearSessionUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        //SET SESSION VALUE FOR THE FORM VARIABLES
+        HttpSession session=request.getSession(); 
+        session.setAttribute("c_vendorname", "");
+        session.setAttribute("c_address1", "");
+        session.setAttribute("c_address2", "");
+        session.setAttribute("c_postalcode", "");
+        session.setAttribute("c_city", "");
+        session.setAttribute("c_country", "");
+        session.setAttribute("c_country1", "");
+        session.setAttribute("c_country2", "");
+        session.setAttribute("c_country3", "");
+        session.setAttribute("c_country4", "");
+        session.setAttribute("c_code", "");
+        session.setAttribute("c_code1", "");
+        session.setAttribute("c_code2", "");
+        session.setAttribute("c_code3", "");
+        session.setAttribute("c_code4", "");
+        session.setAttribute("c_contact", "");
+        session.setAttribute("c_fax", "");
+        session.setAttribute("c_email", "");
+        session.setAttribute("c_term", "");
+        session.setAttribute("c_term1", "");
+        session.setAttribute("c_term2", "");
+        session.setAttribute("c_term3", "");
+        session.setAttribute("c_link", "");
+        session.setAttribute("c_platform", "");
+        session.setAttribute("c_platform1", "");
+        session.setAttribute("c_platform2", "");
+        session.setAttribute("c_currency", "");
+        session.setAttribute("c_tax", "");
+        session.setAttribute("item", "");
+        
+        //MATERIAL REGISTRATION (INSERT)
+        session.setAttribute("c_materialname", "");
+        session.setAttribute("c_desc", "");
+        session.setAttribute("c_subclass", "");
+        session.setAttribute("c_type", "");
+        session.setAttribute("c_func1", "");
+        session.setAttribute("c_func2", "");
+        session.setAttribute("c_subfunc", "");
+        
+        //ACTIVE OR INACTIVE TAB
+        session.setAttribute("create1panel", " showactive");
+        session.setAttribute("create1tab", "active");
+        session.setAttribute("create1content", "show active");
+        session.setAttribute("create2tab", "disabled");
+        session.setAttribute("create2content", "");
+        session.setAttribute("create2submit", "");
+        session.setAttribute("create3tab", "disabled");
+        session.setAttribute("create3content", "");
+        
+        session.setAttribute("update1tab", "active");
+        session.setAttribute("update1content", "show active");
+        session.setAttribute("update2tab", "disabled");
+        session.setAttribute("update2content", "");
+        
+        session.setAttribute("createpanel", "active");
+        session.setAttribute("createtab", "show active");
+        session.setAttribute("updatepanel", "");
+        session.setAttribute("updatetab", "");
+    }
+    
+    protected void s(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session=request.getSession(); 
+        PR_Model m = new PR_Model();
+       /* int rowmaterial = m.countRowMaterial(m.vendorid);
+        String[][] array = m.listVendorMaterial(m.vendorid);
+        session.setAttribute("rowmaterial",rowmaterial);
+        for(int i=0; i<rowmaterial; i++){
+            session.setAttribute("1material"+i, array[i][0]);
+            session.setAttribute("2material"+i, array[i][1]);
+            session.setAttribute("3material"+i, array[i][2]);
+            session.setAttribute("4material"+i, array[i][3]);
+            session.setAttribute("5material"+i, array[i][4]);
+            session.setAttribute("6material"+i, array[i][5]);
+            session.setAttribute("7material"+i, array[i][6]);
+            session.setAttribute("8material"+i, array[i][7]);
+        }*/
     }
     /**
      * Returns a short description of the servlet.

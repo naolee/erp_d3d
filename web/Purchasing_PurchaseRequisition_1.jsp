@@ -1,96 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" type="text/css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" type="text/css">
-  <link rel="stylesheet" href="css/Untitled_1.css" type="text/css">
-</head>
-<body style="background-image: url('image/reit-insight-background.jpg'); height: 100%; background-position: center; background-size: cover">
-  <nav class="container navbar navbar-expand-md bg-primary navbar-dark topradius5">
-    <div class="container">
-      <a class="navbar-brand" href="#"><i class="fa d-inline fa-lg fa-cloud"></i><b>&nbsp;Designex3D</b></a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link text-dark">You are logged in as Mamie Hamilton</a>
-          </li>
-        </ul>
-        <a class="btn navbar-btn ml-2 text-white btn-dark"><i class="fa d-inline fa-lg fa-user-circle-o"></i> Log out </a>
-      </div>
-    </div>
-  </nav>
-  <div class="container bg-dark bottomradius5">
-    <ul class="nav nav-pills border-dark bg-dark">
-      <li class="nav-item">&nbsp;
-        <div class="btn-group">
-          <button class="active btn btn-outline-dark"><i class="fa fa-home fa-home"></i>&nbsp; Home </button>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="dropdown">
-          <button class="btn btn-outline-dark dropdown-toggle text-light" data-toggle="dropdown"> Sales </button>
-          <div class="dropdown-menu dropdown-content">
-            <a class="dropdown-item" href="#">Inquiry</a>
-            <a class="dropdown-item" href="#">Quotation</a>
-            <a class="dropdown-item" href="#">Sales Order</a>
-            <a class="dropdown-item" href="#">Sales Invoice</a>
-            <a class="dropdown-item" href="#">Shipping &amp; Transportation</a>
-          </div>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="dropdown">
-          <button class="btn btn-outline-dark dropdown-toggle text-light" data-toggle="dropdown"> Purchasing </button>
-          <div class="dropdown-menu dropdown-content">
-            <a class="dropdown-item" href="#">Purchase Requisition</a>
-            <a class="dropdown-item" href="#">Purchase Order</a>
-            <a class="dropdown-item" href="#">Purchase Invoice</a>
-          </div>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="dropdown">
-          <button class="btn btn-outline-dark dropdown-toggle text-light" data-toggle="dropdown"> Material Movement </button>
-          <div class="dropdown-menu dropdown-content">
-            <a class="dropdown-item" href="#">In/ Received</a>
-            <a class="dropdown-item" href="#">Out/ Dispose</a>
-            <a class="dropdown-item" href="#">Reject</a>
-          </div>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="dropdown">
-          <button class="btn btn-outline-dark dropdown-toggle text-light" data-toggle="dropdown"> Inventory </button>
-          <div class="dropdown-menu dropdown-content">
-            <a class="dropdown-item" href="#">Item Registration </a>
-            <a class="dropdown-item" href="#">Stock Overview </a>
-            <a class="dropdown-item" href="#">Stock/ Requirements List</a>
-          </div>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="btn-group">
-          <button class="btn btn-outline-dark text-light"> Accounting </button>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="btn-group">
-          <button class="btn btn-outline-dark text-light"> Budgeting </button>
-        </div>
-      </li>&nbsp;
-      <li class="nav-item">
-        <div class="btn-group">
-          <button class="btn btn-outline-dark text-light"> Production </button>
-        </div>
-      </li>
-    </ul>
-  </div>
+<%@ include file = "header.jsp" %>
   <div class="py-3">
     <div class="container">
       <div class="row">
@@ -264,52 +172,52 @@
                           <td class="text-center">1</td>
                           <td><input readonly id="item1" name="item1" type="text" class="form-control"></td>
                           <td class="text-center">
-                            <a class="btn btn-primary" onclick="deleteRow_old(this)">Remove</a>
+                            <a class="btn btn-primary text-white" onclick="deleteRow_old(this)">Remove</a>
                           </td>
                         </tr>
                       </tbody>
                     </table> 
-                    <div>
+                    <div class="text-right my-3">
                         <input id="submit_type" name="submit_type" value="2" type="hidden">
                         <input id="itemno" name="itemno" value="" type="hidden">
-                        <button type="submit" class="btn btn-primary" onclick="submitRegMaterial()">next</button>
+                        <a class="btn btn-primary text-white" data-target="#findmaterial" data-toggle="collapse">Find Materials</a>
+                        <a class="btn btn-primary text-white" onclick="addMore()">Add More</a>
+                        <button type="submit" class="btn btn-primary" onclick="submitRegMaterial()">Next</button>
                     </div>                       
                     </form>
-                        <button class="btn btn-primary" onclick="changeId()">Test</button>
-                        <button class="btn btn-primary" onclick="addMore()">Add More</button>
-                    <div>
-                        <button class="btn btn-info" data-target="#findmaterial" data-toggle="collapse">Find Materials</button>
-                    </div>
                   </div>
                       <div class="collapse" id="findmaterial">
                         <div>
-                            <select onchange="copyItem()" id="selectItem" class="form-control" required="required">
+                            <select onchange="copyItem()" id="selectItem" class=" my-3 form-control" required="required">
                               <option value="1">Item 1</option>
                             </select> 
-                            <table id="example1234" class="table table-striped">
+                            <table id="example1234" class="tablefixed table table-striped">
                                <thead>
                                  <tr>
-                                   <th class="text-center table-light leftradius5">No</th>
-                                   <th class="text-center table-light">Code</th>
-                                   <th class="table-light rightradius5">Product Description</th>
+                                   <th class="text-center table-light leftradius5">ID</th>
+                                   <th class="text-center table-light">Name</th>
+                                   <th class="text-center table-light">Description</th>
+                                   <th class="text-center table-light">Sub-Class</th>
+                                   <th class="text-center table-light">Type</th>
+                                   <th class="text-center table-light">Function 1</th>
+                                   <th class="text-center table-light">Function 2</th>
+                                   <th class="text-center table-light rightradius5">Sub-Function</th>
                                  </tr>
                                </thead>
                                <tbody>
+                                   <% int rowmaterial = Integer.parseInt(session.getAttribute("rowmaterial").toString());
+                                    for (int i=0; i<rowmaterial; i++){
+                                   %>
                                  <tr>
-                                   <td class="text-center">1</td>
-                                   <td class="text-center">001122</td>
-                                   <td>Mark</td>
-                                 </tr>
-                                 <tr>
-                                   <td class="text-center">2</td>
-                                   <td class="text-center">334455</td>
-                                   <td>sdsdsdsdsdsd</td>
-                                 </tr>
-                                 <tr>
-                                   <td class="text-center">3</td>
-                                   <td class="text-center">667788</td>
-                                   <td>ghhgfffffffffff</td>
-                                 </tr>
+                                    <td class="text-center"><%=session.getAttribute("1material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("2material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("3material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("4material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("5material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("6material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("7material"+i)%></td>
+                                    <td class="text-center"><%=session.getAttribute("8material"+i)%></td>
+                                 </tr><%}%>
                                </tbody>
                             </table>
                         </div>
@@ -421,9 +329,11 @@
     for(var i = 1; i < s1.rows.length; i++){
         s1.rows[i].onclick = function(){
         var xyz = document.getElementById("selectItem").value; 
-        var content = this.cells[2].innerHTML;
+        var content1 = this.cells[0].innerHTML;
+        var content2 = this.cells[2].innerHTML;
         var z = document.getElementById("vendorMaterial");
-        z.rows[xyz].cells[1].innerHTML = '<input id=item'+xyz+' readonly="" value="'+content+'" type="text" class="form-control">';
+        z.rows[xyz].cells[1].innerHTML = '<input id="item"'+xyz+' name="item"'+xyz+' readonly="" value="'+content2+'" type="text" class="form-control">'+
+                                        '<input hidden id="iditem"'+xyz+' name="iditem"'+xyz+' readonly="" value="'+content1+'" type="text" class="form-control">';
         };
     }
     function determineCurrencyTax() {
@@ -440,7 +350,7 @@
             document.getElementById("c_currency").value = "MYR";
             document.getElementById("c_tax").value = "GST";
         }
-        if (c_country === Singapore){
+        if (c_country === "Singapore"){
             document.getElementById("c_currency").value = "SGD";
             document.getElementById("c_tax").value = "None";
         }
@@ -467,8 +377,7 @@
         var cell3 = row.insertCell(2);
         cell1.innerHTML = '<div class="text-center">'+countrow+'</div>';
         cell2.innerHTML = '<input readonly id="item'+countrow+'" name="item'+countrow+'" type="text" class="form-control">';
-        cell3.innerHTML = '<div class="text-center"><a class="btn btn-primary" onclick="deleteRow_new(this)">Remove</a></div>';
-        
+        cell3.innerHTML = '<div class="text-center"><a class="btn btn-primary text-white" onclick="deleteRow_new(this)">Remove</a></div>';
         //ADD NEW OPTION TO SELECT INPUT
 	var select = document.getElementById("selectItem");
 	select.options[select.options.length] = new Option('Item '+countrow,countrow);
@@ -517,8 +426,8 @@
         for(var i=1; i<length; i++){
             table.rows[i].cells[1].children[0].id = "item"+i;
             table.rows[i].cells[1].children[0].name = "item"+i;
-            //alert("id "+document.getElementById("item"+i).id);
-           // alert("name "+document.getElementById("item"+i).name);
+            table.rows[i].cells[1].children[1].id = "iditem"+i;
+            table.rows[i].cells[1].children[1].name = "iditem"+i;
         }
     }
     function deleteRow_old(x) {
@@ -532,3 +441,4 @@
 </body>
 </html>
 
+                                                                                                                       

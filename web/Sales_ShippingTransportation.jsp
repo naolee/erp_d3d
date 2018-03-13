@@ -7,14 +7,13 @@
             <li class="breadcrumb-item">
               <a href="#">Home</a>
             </li>
+            <li class="breadcrumb-item">
+              <a href="#">Sales</a>
+            </li>
+            <li class="breadcrumb-item active">Shipping &amp; Transportation</li>
           </ul>
         </div>
       </div>
-      <div>
-      <form action="NewServlet" method="post">
-          <button name="submit_type" value="1" type="submit" class="btn btn-primary">Submit</button>
-      </form>
-  </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

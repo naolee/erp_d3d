@@ -8,14 +8,30 @@ import java.sql.Connection;
 import dbConnection.DBconn;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.ResultSet;
 /**
  *
  * @author nadia
  */
 public class PR_Model {
-    String vendorname,address1,address2,postalcode,city,country,currency,tax,code,contact,fax,email,term,link,platform;
+    String mat_id, vendorid, vendorname,address1,address2,postalcode,city,country,currency,tax,code,contact,fax,email,term,link,platform;
     String[] item;
+    
+    public String getMat_id() {
+        return mat_id;
+    }
+
+    public void setMat_id(String mat_id) {
+        this.mat_id = mat_id;
+    }
+
+    public String getVendorid() {
+        return vendorid;
+    }
+
+    public void setVendorid(String vendorid) {
+        this.vendorid = vendorid;
+    }
 
     public String getVendorname() {
         return vendorname;
@@ -146,13 +162,12 @@ public class PR_Model {
     }
     
     public void insertNewVendor(){
-        DBconn db = new DBconn();Connection conn = db.Connection(); 
+        DBconn db = new DBconn();
+        Connection conn = db.Connection(); 
         PreparedStatement ps;
-        
-//        Timestamp time = new Timestamp(System.currentTimeMillis());
         try{
             String query = "INSERT INTO vendor values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            ps=conn.prepareStatement(query);
+            ps=conn.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, null);
             ps.setString(2, getVendorname());
             ps.setString(3, getAddress1());
@@ -171,14 +186,20 @@ public class PR_Model {
             ps.setString(16, getTax());
             ps.executeUpdate();
             
-            System.out.println("File is successfully saved!");
+            ResultSet keyResultSet = ps.getGeneratedKeys();
+            int newCustomerId = 0;
+            if (keyResultSet.next()) {
+                newCustomerId = (int) keyResultSet.getInt(1);
+                setVendorid(String.valueOf(newCustomerId));
+            }
         }catch (SQLException e){
                 System.err.println(e);
         }
         db.closeConn();
     }
     public void insertNewMaterial(){
-        DBconn db = new DBconn();Connection conn = db.Connection(); 
+        DBconn db = new DBconn();
+        Connection conn = db.Connection(); 
         PreparedStatement ps;
         //DATE REGISTERED
         //Timestamp time = new Timestamp(System.currentTimeMillis());
@@ -194,5 +215,66 @@ public class PR_Model {
                 System.err.println(e);
         }
         db.closeConn();
+    }
+    public void insertVendorMaterial(){
+        DBconn db = new DBconn();
+        Connection conn = db.Connection(); 
+        PreparedStatement ps;
+        try{
+            String query = "INSERT INTO vendormaterial values (?,?,?)";
+            ps=conn.prepareStatement(query);
+            ps.setString(1, getVendorid());
+            ps.setString(2, getMat_id());
+            ps.setString(3, null);
+            ps.executeUpdate();
+        }catch (SQLException e){
+                System.err.println(e);
+        }
+        db.closeConn();
+    }
+    public int countRowMaterial(){
+        DBconn db = new DBconn();
+        Connection conn = db.Connection();     
+        PreparedStatement ps;
+        ResultSet rs;
+        int row=0;
+        try{
+            ps=conn.prepareStatement("SELECT COUNT(*) AS row FROM vendormaterial WHERE ven_id =?");
+            ps.setString(1, getVendorid());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                row=rs.getInt("row");
+            }
+        }catch (SQLException e){System.err.println(e);}
+        
+        db.closeConn();
+        return row;
+    }    
+    public String[][] listMaterial(){
+        DBconn db = new DBconn();
+        Connection conn = db.Connection(); 
+        PreparedStatement ps;
+        ResultSet rs;
+        int row = countRowMaterial();
+        String[][] array = new String[row][4];   
+        try{
+            ps=conn.prepareStatement("SELECT material.mat_id, material.mat_name, material.mat_desc, inventory.mat_id FROM material\n" +
+                                    "INNER JOIN inventory on material.mat_id=inventory.mat_id \n" +
+                                    "WHERE  material.mat_id IN(SELECT item_id FROM vendormaterial WHERE ven_id = ?)");
+            ps.setString(1, getVendorid());
+            rs = ps.executeQuery();
+            int i=0;
+            while(rs.next()){
+                array[i][0]= rs.getString(1);
+                array[i][1]= rs.getString(2);
+                array[i][2]= rs.getString(3);
+                array[i][3]= rs.getString(4);
+                i++;
+            }
+        }catch (SQLException e){
+            System.err.println(e);
+        }
+        db.closeConn();
+        return array;
     }
 }

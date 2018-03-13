@@ -6204,6 +6204,12 @@ html, body {
 .toprightradius5 {
   border-top-right-radius: 5px; }
 
+.bottomleftradius5 {
+  border-bottom-left-radius: 5px; }
+
+.bottomrightradius5 {
+  border-bottom-right-radius: 5px; }
+
 .aaaa {
   background-image: url("reit-insight-background.jpg");
   height: 100%;
@@ -6259,3 +6265,32 @@ html, body {
 
 .width75 {
   width: 75%; }
+
+.width100 {
+  width: 100%; }
+
+.tablefixed{
+    table-layout: fixed;
+}
+
+.leftborder{
+    border-left: 1px solid black;
+}
+
+.rightborder{
+    border-right: 1px solid black;
+}
+
+.topborder{
+    border-top: 1px solid black;
+}
+.bottomborder{
+    border-bottom: 1px solid black;
+}
+
+.sds{
+    
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
